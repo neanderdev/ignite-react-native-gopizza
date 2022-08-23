@@ -11,6 +11,9 @@ import {
     Greeting,
     GreetingEmoji,
     GreetingText,
+    MenuHeader,
+    MenuHeaderNumber,
+    Title,
 } from './styles';
 
 import happyEmoji from '@assets/happy.png';
@@ -33,6 +36,12 @@ export function Home() {
             </Header>
 
             <Search onSearch={() => { }} onClear={() => { }} />
+
+            <MenuHeader>
+                <Title>Cardápio</Title>
+
+                <MenuHeaderNumber>10 pizzas</MenuHeaderNumber>
+            </MenuHeader>
         </Container>
     );
 }
