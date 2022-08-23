@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 
 import { ButtonBack } from '@components/ButtonBack';
 import { Photo } from '@components/Photo';
@@ -14,6 +15,28 @@ import {
 } from './styles';
 
 export function Product() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [image, setImage] = useState('');
+
+    async function handlePickerImage() {
+        setIsLoading(true);
+
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (status === 'granted') {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [4, 4],
+            });
+
+            if (!result.cancelled) {
+                setImage(result.uri);
+            }
+        }
+
+        setIsLoading(false);
+    }
+
     return (
         <Container behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
             <Header>
@@ -31,9 +54,14 @@ export function Product() {
             </Header>
 
             <Upload>
-                <Photo uri='' />
+                <Photo uri={image} />
 
-                <PickImageButton title='Carregar' type='secondary' />
+                <PickImageButton
+                    title='Carregar'
+                    type='secondary'
+                    onPress={handlePickerImage}
+                    isLoading={isLoading}
+                />
             </Upload>
         </Container>
     );
