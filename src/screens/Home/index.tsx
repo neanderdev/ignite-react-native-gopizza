@@ -4,6 +4,7 @@ import { useTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Search } from '@components/Search';
+import { ProductCard } from '@components/ProductCard';
 
 import {
     Container,
@@ -42,6 +43,15 @@ export function Home() {
 
                 <MenuHeaderNumber>10 pizzas</MenuHeaderNumber>
             </MenuHeader>
+
+            <ProductCard
+                data={{
+                    id: '1',
+                    name: 'Pizza',
+                    description: 'Descrição teste da pizza',
+                    photo_url: 'https://github.com/neanderdev.png',
+                }}
+            />
         </Container>
     );
 }
