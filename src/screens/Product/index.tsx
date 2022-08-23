@@ -23,11 +23,17 @@ import {
 } from './styles';
 
 export function Product() {
-    const [isLoading, setIsLoading] = useState(false);
     const [image, setImage] = useState('');
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [priceSizeP, setPriceSizeP] = useState('');
+    const [priceSizeM, setPriceSizeM] = useState('');
+    const [priceSizeG, setPriceSizeG] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingUpload, setIsLoadingUpload] = useState(false);
 
     async function handlePickerImage() {
-        setIsLoading(true);
+        setIsLoadingUpload(true);
 
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -42,7 +48,7 @@ export function Product() {
             }
         }
 
-        setIsLoading(false);
+        setIsLoadingUpload(false);
     }
 
     return (
@@ -69,7 +75,7 @@ export function Product() {
                         title='Carregar'
                         type='secondary'
                         onPress={handlePickerImage}
-                        isLoading={isLoading}
+                        isLoading={isLoadingUpload}
                     />
                 </Upload>
 
@@ -77,7 +83,7 @@ export function Product() {
                     <InputGroup>
                         <Label>Nome</Label>
 
-                        <Input />
+                        <Input onChangeText={setName} value={name} />
                     </InputGroup>
 
                     <InputGroup>
@@ -91,21 +97,24 @@ export function Product() {
                             multiline
                             maxLength={60}
                             style={{ height: 80 }}
+                            onChangeText={setDescription}
+                            value={description}
                         />
                     </InputGroup>
 
                     <InputGroup>
                         <Label>Tamanhos e Preços</Label>
 
-                        <InputPrice size='P' />
+                        <InputPrice size='P' onChangeText={setPriceSizeP} value={priceSizeP} />
 
-                        <InputPrice size='M' />
+                        <InputPrice size='M' onChangeText={setPriceSizeM} value={priceSizeM} />
 
-                        <InputPrice size='G' />
+                        <InputPrice size='G' onChangeText={setPriceSizeG} value={priceSizeG} />
                     </InputGroup>
 
                     <Button
                         title='Cadastrar pizza'
+                        isLoading={isLoading}
                     />
                 </Form>
             </ScrollView>
