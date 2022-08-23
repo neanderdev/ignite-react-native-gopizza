@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -22,6 +22,8 @@ import {
 import happyEmoji from '@assets/happy.png';
 
 export function Home() {
+    const [pizzas, setPizzas] = useState<ProductProps[]>([]);
+
     const { COLORS } = useTheme();
 
     async function fetchPizzas(value: string) {
@@ -41,7 +43,7 @@ export function Home() {
                     };
                 }) as ProductProps[];
 
-                console.log(data);
+                setPizzas(data);
             })
             .catch(() => Alert.alert('Consulta', 'Não foi possível realizar a consulta.'));
     }
@@ -72,12 +74,15 @@ export function Home() {
                 <MenuHeaderNumber>10 pizzas</MenuHeaderNumber>
             </MenuHeader>
 
-            <ProductCard
-                data={{
-                    id: '1',
-                    name: 'Pizza',
-                    description: 'Descrição teste da pizza',
-                    photo_url: 'https://github.com/neanderdev.png',
+            <FlatList
+                data={pizzas}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => <ProductCard data={item} />}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingTop: 20,
+                    paddingBottom: 125,
+                    marginHorizontal: 24,
                 }}
             />
         </Container>
