@@ -10,7 +10,7 @@ import { ThemeProvider } from 'styled-components/native';
 
 import { AuthProvider } from './src/hooks/auth';
 
-import { SignIn } from './src/screens/SignIn';
+import { Product } from './src/screens/Product';
 
 import theme from './src/theme';
 
@@ -34,7 +34,7 @@ export default function App() {
         />
 
         <AuthProvider>
-          <SignIn />
+          <Product />
         </AuthProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
