@@ -2,6 +2,7 @@ import React, {
     createContext,
     useContext,
     useState,
+    useEffect,
     ReactNode,
 } from 'react';
 import { Alert } from 'react-native';
@@ -75,6 +76,24 @@ function AuthProvider({ children }: AuthProviderProps) {
             })
             .finally(() => setIsLogging(false));
     }
+
+    async function loadUserStorageData() {
+        setIsLogging(true);
+
+        const storedUser = await AsyncStorage.getItem(USER_COLLECTION);
+
+        if (storedUser) {
+            const userData = JSON.parse(storedUser) as User;
+
+            setUser(userData);
+        }
+
+        setIsLogging(false);
+    }
+
+    useEffect(() => {
+        loadUserStorageData();
+    }, []);
 
     return (
         <AuthContext.Provider value={{
