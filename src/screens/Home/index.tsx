@@ -68,7 +68,9 @@ export function Home() {
     }
 
     async function handleOpen(id: string) {
-        navigation.navigate('product', { id });
+        const route = user?.isAdmin ? 'product' : 'order';
+
+        navigation.navigate(route, { id });
     }
 
     async function handleAdd() {
