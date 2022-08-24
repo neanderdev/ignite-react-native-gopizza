@@ -5,14 +5,14 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
-import { ProductNavigationProps } from '@src/@types/navigation';
-
 import { ButtonBack } from '@components/ButtonBack';
 import { Photo } from '@components/Photo';
 import { Input } from '@components/Input';
 import { InputPrice } from '@components/InputPrice';
 import { Button } from '@components/Button';
 import { ProductProps } from '@components/ProductCard';
+
+import { ProductNavigationProps } from '@src/@types/navigation';
 
 import {
     Container,
@@ -46,7 +46,6 @@ export function Product() {
     const [image, setImage] = useState('');
     const [photoPath, setPhotoPath] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isLoadingUpload, setIsLoadingUpload] = useState(false);
 
     const route = useRoute();
     const { id } = route.params as ProductNavigationProps;
@@ -54,8 +53,6 @@ export function Product() {
     const navigation = useNavigation();
 
     async function handlePickerImage() {
-        setIsLoadingUpload(true);
-
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (status === 'granted') {
@@ -68,8 +65,6 @@ export function Product() {
                 setImage(result.uri);
             }
         }
-
-        setIsLoadingUpload(false);
     }
 
     async function handleAdd() {
@@ -188,7 +183,6 @@ export function Product() {
                             title='Carregar'
                             type='secondary'
                             onPress={handlePickerImage}
-                            isLoading={isLoadingUpload}
                         />
                     }
                 </Upload>
