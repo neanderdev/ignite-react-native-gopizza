@@ -6,6 +6,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
+import { useAuth } from '@hooks/auth';
+
 import { Search } from '@components/Search';
 import { ProductCard, ProductProps } from '@components/ProductCard';
 
@@ -30,6 +32,8 @@ export function Home() {
     const navigation = useNavigation();
 
     const { COLORS } = useTheme();
+
+    const { user, signOut } = useAuth();
 
     async function fetchPizzas(value: string) {
         const formattedValue = value.toLocaleLowerCase().trim();
@@ -86,7 +90,7 @@ export function Home() {
                     <GreetingText>Olá, Admin</GreetingText>
                 </Greeting>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={signOut}>
                     <MaterialIcons name='logout' size={24} color={COLORS.TITLE} />
                 </TouchableOpacity>
             </Header>
@@ -121,11 +125,13 @@ export function Home() {
                 }}
             />
 
-            <NewProductButton
-                title='Cadastrar pizza'
-                type='secondary'
-                onPress={handleAdd}
-            />
+            {
+                user?.isAdmin && <NewProductButton
+                    title='Cadastrar pizza'
+                    type='secondary'
+                    onPress={handleAdd}
+                />
+            }
         </Container>
     );
 }
