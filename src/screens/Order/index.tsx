@@ -2,8 +2,9 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import { ButtonBack } from '@components/ButtonBack';
+import { RadioButton } from '@components/RadioButton';
 
-import { Container, Header, Photo } from './styles';
+import { Container, Header, Photo, Sizes } from './styles';
 
 export function Order() {
     return (
@@ -16,6 +17,21 @@ export function Order() {
             </Header>
 
             <Photo source={{ uri: 'https://github.com/neanderdev.png' }} />
+
+            <Sizes>
+                <RadioButton
+                    title='Pequena'
+                    selected={false}
+                />
+                <RadioButton
+                    title='Média'
+                    selected={true}
+                />
+                <RadioButton
+                    title='Grande'
+                    selected={false}
+                />
+            </Sizes>
         </Container>
     );
 }
