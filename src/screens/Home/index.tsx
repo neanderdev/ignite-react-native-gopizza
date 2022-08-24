@@ -18,6 +18,7 @@ import {
     MenuHeader,
     MenuHeaderNumber,
     Title,
+    NewProductButton,
 } from './styles';
 
 import happyEmoji from '@assets/happy.png';
@@ -66,6 +67,10 @@ export function Home() {
         navigation.navigate('product', { id });
     }
 
+    async function handleAdd() {
+        navigation.navigate('product', {});
+    }
+
     useEffect(() => {
         fetchPizzas('');
     }, []);
@@ -112,6 +117,12 @@ export function Home() {
                     paddingBottom: 125,
                     marginHorizontal: 24,
                 }}
+            />
+
+            <NewProductButton
+                title='Cadastrar pizza'
+                type='secondary'
+                onPress={handleAdd}
             />
         </Container>
     );

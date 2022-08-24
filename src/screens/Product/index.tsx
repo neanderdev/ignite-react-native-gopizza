@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { Platform, TouchableOpacity, ScrollView, Alert, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { ProductNavigationProps } from '@src/@types/navigation';
 
@@ -50,6 +50,8 @@ export function Product() {
 
     const route = useRoute();
     const { id } = route.params as ProductNavigationProps;
+
+    const navigation = useNavigation();
 
     async function handlePickerImage() {
         setIsLoadingUpload(true);
@@ -116,6 +118,10 @@ export function Product() {
         setIsLoading(false);
     }
 
+    async function handleGoBack() {
+        navigation.goBack();
+    }
+
     useEffect(() => {
         if (id) {
             firestore()
@@ -140,28 +146,35 @@ export function Product() {
         <Container behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Header>
-                    <ButtonBack />
+                    <ButtonBack onPress={handleGoBack} />
 
                     <Title>
                         Cadastrar
                     </Title>
 
-                    <TouchableOpacity>
-                        <DeleteLabel>
-                            Deletar
-                        </DeleteLabel>
-                    </TouchableOpacity>
+                    {
+                        !id ?
+                            <TouchableOpacity>
+                                <DeleteLabel>
+                                    Deletar
+                                </DeleteLabel>
+                            </TouchableOpacity>
+                            : <View style={{ width: 20 }} />
+                    }
                 </Header>
 
                 <Upload>
                     <Photo uri={image} />
 
-                    <PickImageButton
-                        title='Carregar'
-                        type='secondary'
-                        onPress={handlePickerImage}
-                        isLoading={isLoadingUpload}
-                    />
+                    {
+                        !id &&
+                        <PickImageButton
+                            title='Carregar'
+                            type='secondary'
+                            onPress={handlePickerImage}
+                            isLoading={isLoadingUpload}
+                        />
+                    }
                 </Upload>
 
                 <Form>
@@ -197,11 +210,14 @@ export function Product() {
                         <InputPrice size='G' onChangeText={setPriceSizeG} value={priceSizeG} />
                     </InputGroup>
 
-                    <Button
-                        title='Cadastrar pizza'
-                        isLoading={isLoading}
-                        onPress={handleAdd}
-                    />
+                    {
+                        !id &&
+                        <Button
+                            title='Cadastrar pizza'
+                            isLoading={isLoading}
+                            onPress={handleAdd}
+                        />
+                    }
                 </Form>
             </ScrollView>
         </Container>
