@@ -11,6 +11,7 @@ import { ThemeProvider } from 'styled-components/native';
 import { AuthProvider } from './src/hooks/auth';
 
 import { Routes } from './src/routes';
+import { Order } from './src/screens/Order';
 
 import theme from './src/theme';
 
@@ -34,7 +35,7 @@ export default function App() {
         />
 
         <AuthProvider>
-          <Routes />
+          <Order />
         </AuthProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
