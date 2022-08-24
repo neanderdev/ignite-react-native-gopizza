@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import firestore from '@react-native-firebase/firestore';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { Search } from '@components/Search';
 import { ProductCard, ProductProps } from '@components/ProductCard';
@@ -71,9 +71,11 @@ export function Home() {
         navigation.navigate('product', {});
     }
 
-    useEffect(() => {
-        fetchPizzas('');
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchPizzas('');
+        }, [])
+    );
 
     return (
         <Container>
